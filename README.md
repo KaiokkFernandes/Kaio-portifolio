@@ -90,9 +90,13 @@ assets/fonts/                # JetBrains Mono (TTF) usado pelo next/og
 O projeto é 100% estático (todas as rotas são pré-renderizadas) e roda em Vercel, Netlify
 ou qualquer host com suporte a Next.js.
 
-1. Defina a variável de ambiente `NEXT_PUBLIC_SITE_URL` com o domínio final
-   (veja `.env.example`). Ela alimenta canonical, sitemap, robots e Open Graph.
-2. Build: `npm run build` — Start: `npm run start`.
+1. Build: `npm run build` — Start: `npm run start`.
+2. Opcionalmente, defina `NEXT_PUBLIC_SITE_URL` com o domínio final (veja `.env.example`).
+
+A URL canônica é resolvida em `src/lib/site.ts`, nesta ordem: `NEXT_PUBLIC_SITE_URL`,
+domínio de produção da Vercel, URL do deploy de preview e, por fim, um fallback. Valores
+vazios, com espaços em volta, sem protocolo (`meu-site.vercel.app`) ou com barra no final
+são normalizados — nenhum deles derruba o build.
 
 ## Assets
 
