@@ -1,7 +1,7 @@
 import { person } from "@/data/content";
 
 /** Último recurso, quando nenhuma variável de ambiente resolve o domínio. */
-const FALLBACK_SITE_URL = "https://leafyfox-7ae830.netlify.app";
+const FALLBACK_SITE_URL = "https://kaio-portifolio-kappa.vercel.app";
 
 /**
  * Normaliza um valor de ambiente para uma URL absoluta utilizável.
