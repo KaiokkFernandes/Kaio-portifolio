@@ -124,7 +124,7 @@ export function Hero() {
                 </li>
                 <li>
                   <a
-                    href="https://www.linkedin.com/in/kaio-fernandes"
+                    href="https://www.linkedin.com/in/kaio-fernandes-4a579b211/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cmd"

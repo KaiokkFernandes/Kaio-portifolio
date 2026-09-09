@@ -64,7 +64,7 @@ export const person = {
     {
       label: "LinkedIn",
       handle: "in/kaio-fernandes",
-      href: "https://www.linkedin.com/in/kaio-fernandes",
+      href: "https://www.linkedin.com/in/kaio-fernandes-4a579b211/",
       icon: "linkedin" as const,
     },
     {
