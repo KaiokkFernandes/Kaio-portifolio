@@ -26,7 +26,7 @@ export function Contact() {
       <div className="container-page relative">
         <Reveal>
           <div className="flex items-center gap-4">
-            <span className="label-mono text-warn">07</span>
+            <span className="label-mono text-warn">08</span>
             <span className="label-mono text-muted">conexão</span>
             <span aria-hidden="true" className="rule-dotted" />
             <span className="label-mono hidden text-subtle sm:block">

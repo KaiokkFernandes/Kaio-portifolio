@@ -35,6 +35,30 @@ export type Highlight = {
   stack: string[];
 };
 
+export type PersonalProject = {
+  slug: string;
+  name: string;
+  tagline: string;
+  summary: string;
+  kind: string;
+  status: string;
+  /** Só para projetos em equipe: tamanho do time e a minha parte nele. */
+  team?: string;
+  role?: string;
+  period: string;
+  links: { app: string; repo: string };
+  image: {
+    src: string;
+    width: number;
+    height: number;
+    alt: string;
+    caption: string;
+  };
+  features: { title: string; text: string }[];
+  engineering: string[];
+  stack: { layer: string; items: string[] }[];
+};
+
 export const person = {
   name: "Kaio Fernandes",
   firstName: "Kaio",
@@ -295,6 +319,167 @@ export const highlights: Highlight[] = [
   },
 ];
 
+export const personalProjects: PersonalProject[] = [
+  {
+    slug: "moedy",
+    name: "Moedy",
+    tagline: "Finanças pessoais a partir do extrato do banco",
+    summary:
+      "App de finanças pessoais em português que transforma o extrato do banco em controle financeiro. O usuário importa o arquivo OFX ou CSV, as transações são categorizadas sozinhas — por regras, pela memória de escolhas anteriores e, opcionalmente, por IA — e o app mostra para onde foi o dinheiro, acompanha orçamentos com alertas e gera relatórios.",
+    kind: "Projeto pessoal · full stack",
+    status: "em produção",
+    period: "2026",
+    links: {
+      app: "https://moedy-chi.vercel.app",
+      repo: "https://github.com/KaiokkFernandes/Moedy",
+    },
+    image: {
+      src: "/images/imagens_projetos/moedy.png",
+      width: 1912,
+      height: 994,
+      alt: "Painel do Moedy em modo escuro, com dados de demonstração: saldo, despesas e receitas do mês, gráfico de despesas por categoria, comparativo de receitas e despesas dos últimos 6 meses e a curva de ritmo de gastos de outubro contra setembro.",
+      caption: "painel · conta de demonstração",
+    },
+    features: [
+      {
+        title: "Importação de extratos",
+        text: "OFX (SGML e XML) e CSV, com detecção de codificação e de colunas, revisão antes de confirmar e proteção contra duplicatas na reimportação.",
+      },
+      {
+        title: "Categorização em camadas",
+        text: "Regras por palavra-chave, memória das escolhas do usuário e sugestão por IA (Claude, da Anthropic), opcional e com consentimento explícito.",
+      },
+      {
+        title: "Painel do mês",
+        text: "Resumo do mês, despesas por categoria, receitas x despesas dos últimos 6 meses, ritmo de gastos comparado ao mês anterior e maiores despesas.",
+      },
+      {
+        title: "Relatórios",
+        text: "Evolução mensal, maiores estabelecimentos, cobranças recorrentes detectadas e exportação em CSV.",
+      },
+      {
+        title: "Orçamentos com alertas",
+        text: "Orçamento por categoria, projeção de fechamento do mês e alertas em 80%, 100% e para gasto fora do normal.",
+      },
+      {
+        title: "Conta e onboarding",
+        text: "Login com email e senha ou Google, modo escuro e onboarding interativo com tour guiado e checklist de primeiros passos.",
+      },
+    ],
+    engineering: [
+      "Valores monetários sempre em centavos inteiros, com um parser próprio que entende formatos brasileiros e americanos sem passar por ponto flutuante.",
+      "Segurança de produção: variáveis de ambiente validadas na inicialização, CORS restrito, CSP, limite de tentativas de login compartilhado entre instâncias (Redis), logs estruturados sem dados sensíveis e erros genéricos para o usuário.",
+      "Mais de 200 testes unitários (node:test) com cobertura mínima exigida, e um CI que bloqueia o merge se lint, typecheck, testes, build ou a imagem Docker falharem.",
+      "Monorepo com Yarn workspaces, ambiente completo com Docker Compose e migrações aplicadas no deploy.",
+    ],
+    stack: [
+      {
+        layer: "frontend",
+        items: [
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "Tailwind CSS 4",
+          "TanStack Query",
+          "React Router",
+          "Recharts",
+        ],
+      },
+      {
+        layer: "backend",
+        items: [
+          "Node.js",
+          "Express 5",
+          "TypeScript",
+          "Prisma",
+          "PostgreSQL",
+          "Zod",
+          "JWT",
+        ],
+      },
+      {
+        layer: "infra",
+        items: [
+          "Vercel",
+          "Neon",
+          "Upstash Redis",
+          "Docker",
+          "GitHub Actions",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "roboblocks",
+    name: "RoboBlocks",
+    tagline: "Jogo para aprender algoritmos consertando uma fábrica",
+    summary:
+      "Plataforma gamificada para ensinar lógica, algoritmos e pensamento computacional a crianças do 4º ano, alinhada à BNCC. Guiado pelo mascote Brasilino, o jogador põe ordem em uma fábrica em pixel art ao longo de três fases: organiza caixas por coordenadas, despacha cargas por critérios e programa um robô com blocos.",
+    kind: "Projeto em equipe · jogo educacional",
+    status: "em produção",
+    period: "2026",
+    team: "3 desenvolvedores",
+    role: "Criei o protótipo, migrei para Next.js e fiz a tela de ajuda, a responsividade, as animações de dica e o deploy.",
+    links: {
+      app: "https://fabrica-de-algor-timo.vercel.app",
+      repo: "https://github.com/KaiokkFernandes/RoboBlocks",
+    },
+    image: {
+      src: "/images/imagens_projetos/roboBlocks.png",
+      width: 1627,
+      height: 730,
+      alt: "Tela inicial do RoboBlocks com o logo em pixel art, o mascote Brasilino em um balão de fala convidando a consertar a fábrica, o botão Jogar e os atalhos para Introdução, Mapa de fases, Ajuda e Configurações.",
+      caption: "tela inicial · brasilino",
+    },
+    features: [
+      {
+        title: "Fase 1 · Esteira de Caixas",
+        text: "8 rounds progressivos em que o jogador arrasta cada caixa para a célula certa da prateleira usando coordenadas (linha, coluna), com tutorial interativo e cartas de dica.",
+      },
+      {
+        title: "Fase 2 · Despachante da Fábrica",
+        text: "Classificação na prática: escolher as caixas de cada caminhão respeitando o que ele aceita, recusa e comporta, buscando o maior lucro.",
+      },
+      {
+        title: "Fase 3 · Lavador Industrial",
+        text: "Programação em blocos com Blockly: o jogador monta o algoritmo com lavar, avançar, repetir, subir andar e mudar direção, e o robô executa passo a passo.",
+      },
+      {
+        title: "História com o Brasilino",
+        text: "Abertura narrada que pergunta o nome do jogador e diálogos com o mascote, cujas expressões mudam conforme a situação.",
+      },
+      {
+        title: "Pontuação e progresso",
+        text: "Estrelas por round, pontos só na primeira conclusão, mapa de fases com o andamento de cada round e progresso salvo no navegador.",
+      },
+      {
+        title: "Relatório para o professor",
+        text: "Desempenho por fase e round, com pontos, erros, dicas usadas e tempo, pronto para imprimir ou salvar em PDF e com a habilidade da BNCC de cada fase.",
+      },
+    ],
+    engineering: [
+      "O programa montado no Blockly roda em um interpretador isolado (js-interpreter), passo a passo, com limite de passos contra loops infinitos e destaque do bloco em execução.",
+      "Arrastar e soltar com Pointer Events, o mesmo código para mouse no desktop e toque no celular.",
+      "Áudio com canais separados para música e efeitos, que podem se sobrepor, volume salvo entre sessões e falha silenciosa quando o navegador bloqueia o som.",
+      "Regras de pontuação centralizadas em um único módulo (pontos só na primeira conclusão, melhor estrela preservada no replay), com o estado do jogo persistido em localStorage.",
+    ],
+    stack: [
+      {
+        layer: "frontend",
+        items: ["Next.js 14", "React 18", "JavaScript", "CSS Modules"],
+      },
+      {
+        layer: "jogo",
+        items: ["Blockly", "js-interpreter", "Pointer Events"],
+      },
+      {
+        layer: "infra",
+        items: ["Vercel"],
+      },
+    ],
+  },
+];
+
 export const education = {
   degree: "Bacharelado em Sistemas de Informação",
   institution: "Universidade Federal de Santa Maria (UFSM)",
@@ -316,9 +501,10 @@ export const navigation = [
   { index: "02", label: "Stack", href: "#stack" },
   { index: "03", label: "Experiência", href: "#experiencia" },
   { index: "04", label: "Projetos", href: "#projetos" },
-  { index: "05", label: "Hackathon", href: "#hackathon" },
-  { index: "06", label: "Formação", href: "#formacao" },
-  { index: "07", label: "Contato", href: "#contato" },
+  { index: "05", label: "Pessoais", href: "#pessoais" },
+  { index: "06", label: "Hackathon", href: "#hackathon" },
+  { index: "07", label: "Formação", href: "#formacao" },
+  { index: "08", label: "Contato", href: "#contato" },
 ];
 
 /**

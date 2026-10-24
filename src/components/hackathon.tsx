@@ -26,7 +26,7 @@ export function Hackathon() {
   return (
     <Section
       id="hackathon"
-      index="05"
+      index="06"
       label="premiação"
       meta="code race 25"
       title="2º lugar no IX Code Race com uma IA para precificar imóveis"

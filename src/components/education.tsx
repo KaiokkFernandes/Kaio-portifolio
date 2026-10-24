@@ -7,7 +7,7 @@ export function Education() {
   return (
     <Section
       id="formacao"
-      index="06"
+      index="07"
       label="registro"
       meta="formação · certificações · idiomas"
       title="Base acadêmica e estudo contínuo"
