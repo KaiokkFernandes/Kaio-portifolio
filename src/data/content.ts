@@ -46,7 +46,8 @@ export type PersonalProject = {
   team?: string;
   role?: string;
   period: string;
-  links: { app: string; repo: string };
+  /** `app` só existe quando o projeto tem deploy público. */
+  links: { app?: string; repo: string };
   image: {
     src: string;
     width: number;
@@ -475,6 +476,81 @@ export const personalProjects: PersonalProject[] = [
       {
         layer: "infra",
         items: ["Vercel"],
+      },
+    ],
+  },
+  {
+    slug: "sellmanager",
+    name: "SellManager",
+    tagline: "Gestão de vendas com um contrato de API único entre back e front",
+    summary:
+      "Plataforma de gestão de vendas — clientes, produtos, estoque, pedidos, dashboard e relatórios — organizada como monorepo com pnpm e Turborepo. Começou como estudo de Clean Architecture em Node.js e evoluiu para uma API REST e um front-end em React que compartilham um único contrato: schemas zod e um registro de rotas que geram o OpenAPI e o client tipado.",
+    kind: "Projeto pessoal · full stack",
+    status: "código aberto · sem deploy",
+    period: "2026",
+    links: {
+      repo: "https://github.com/KaiokkFernandes/SellManager-API",
+    },
+    image: {
+      src: "/images/imagens_projetos/sellManager.png",
+      width: 1600,
+      height: 673,
+      alt: "Dashboard do SellManager em modo escuro, com dados de demonstração: faturamento, vendas, ticket médio e taxa de cancelamento comparados ao período anterior, alerta de 20 produtos abaixo do estoque mínimo e gráfico de faturamento diário de outubro.",
+      caption: "dashboard · dados do seed",
+    },
+    features: [
+      {
+        title: "Pedidos com máquina de estados",
+        text: "Pendente, pago, enviado, entregue ou cancelado, com transições validadas no domínio, motivo obrigatório no cancelamento e histórico de quem mudou o quê e quando.",
+      },
+      {
+        title: "Estoque como livro-razão",
+        text: "Toda mudança é uma movimentação (entrada, venda, devolução, ajuste), o saldo é sempre a soma delas, com estoque mínimo e alerta de produtos abaixo do limite.",
+      },
+      {
+        title: "Papéis e permissões",
+        text: "ADMIN, MANAGER e SELLER a partir de um único mapa em código, usado pela API para responder 403 e pelo front para esconder botões e rotas.",
+      },
+      {
+        title: "Dashboard de vendas",
+        text: "Faturamento, vendas, ticket médio e cancelamentos comparados ao período anterior, por dia, semana ou mês no fuso do negócio; o vendedor vê só os próprios números.",
+      },
+      {
+        title: "Relatórios em CSV",
+        text: "Vendas, produtos e clientes prontos para abrir no Excel em português, gerados em streaming a partir de um cursor do PostgreSQL, com memória constante.",
+      },
+      {
+        title: "Catálogo e usuários",
+        text: "Clientes, produtos com imagem, categorias, perfil, avatar e recuperação de senha por e-mail; usuários são desativados, nunca apagados.",
+      },
+    ],
+    engineering: [
+      "Contrato único em um pacote compartilhado: schemas zod e registro de rotas geram o openapi.json e o client tipado, então renomear um campo quebra a compilação da API e do front, e o CI falha se o OpenAPI estiver desatualizado.",
+      "Concorrência tratada no banco: pedidos e estoque rodam em transação com locks de linha sempre na mesma ordem, sem deadlocks, e testes de integração contra o PostgreSQL real provam cada cenário.",
+      "Clean Architecture: regras de negócio no domínio, sem framework, e valores monetários sempre em centavos inteiros.",
+      "Métricas em uma única agregação SQL com índices parciais, respondendo em poucos milissegundos sobre um seed de 12 meses, e CI com lint, typecheck, build e testes unitários e de integração via Turborepo.",
+    ],
+    stack: [
+      {
+        layer: "frontend",
+        items: ["React", "TypeScript", "Vite", "openapi-fetch", "Playwright"],
+      },
+      {
+        layer: "backend",
+        items: [
+          "Node.js",
+          "Express 5",
+          "TypeScript",
+          "TypeORM",
+          "PostgreSQL",
+          "Zod",
+          "JWT",
+          "OpenAPI",
+        ],
+      },
+      {
+        layer: "infra",
+        items: ["pnpm", "Turborepo", "Docker", "GitHub Actions"],
       },
     ],
   },

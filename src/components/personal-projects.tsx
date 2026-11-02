@@ -10,13 +10,15 @@ import { personalProjects, type PersonalProject } from "@/data/content";
 /** URL sem protocolo, para exibir no registro do projeto. */
 const bare = (url: string) => url.replace(/^https?:\/\//, "");
 
+const deployed = personalProjects.filter((p) => p.links.app).length;
+
 export function PersonalProjects() {
   return (
     <Section
       id="pessoais"
       index="05"
       label="projetos pessoais"
-      meta={`${personalProjects.length} em produção`}
+      meta={`${personalProjects.length} projetos · ${deployed} em produção`}
       title="O que eu construo além do trabalho"
       description="Produtos que eu desenvolvo fora do expediente, sozinho ou em equipe, do primeiro commit ao deploy."
     >
@@ -30,33 +32,38 @@ export function PersonalProjects() {
 }
 
 function ProjectEntry({ project }: { project: PersonalProject }) {
+  const { app, repo } = project.links;
   const record = [
     { key: "tipo", value: project.kind },
     { key: "período", value: project.period },
     ...(project.team ? [{ key: "equipe", value: project.team }] : []),
-    {
-      key: "app",
-      value: (
-        <a
-          href={project.links.app}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal"
-        >
-          {bare(project.links.app)}
-        </a>
-      ),
-    },
+    ...(app
+      ? [
+          {
+            key: "app",
+            value: (
+              <a
+                href={app}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal"
+              >
+                {bare(app)}
+              </a>
+            ),
+          },
+        ]
+      : []),
     {
       key: "código",
       value: (
         <a
-          href={project.links.repo}
+          href={repo}
           target="_blank"
           rel="noopener noreferrer"
           className="underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal"
         >
-          {bare(project.links.repo).replace("github.com/", "")}
+          {bare(repo).replace("github.com/", "")}
         </a>
       ),
     },
@@ -74,7 +81,7 @@ function ProjectEntry({ project }: { project: PersonalProject }) {
           >
             <figure className="flex flex-1 flex-col">
               <a
-                href={project.links.app}
+                href={app ?? repo}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-1 items-center overflow-hidden bg-bg-deep"
@@ -100,7 +107,14 @@ function ProjectEntry({ project }: { project: PersonalProject }) {
             label={`project · ${project.slug}`}
             meta={
               <span className="flex items-center gap-1.5">
-                <span className="status-dot" aria-hidden="true" />
+                {app ? (
+                  <span className="status-dot" aria-hidden="true" />
+                ) : (
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full bg-subtle"
+                    aria-hidden="true"
+                  />
+                )}
                 {project.status}
               </span>
             }
@@ -145,20 +159,22 @@ function ProjectEntry({ project }: { project: PersonalProject }) {
               ) : null}
 
               <div className="mt-auto flex flex-wrap gap-2 pt-6">
+                {app ? (
+                  <a
+                    href={app}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cmd cmd-primary"
+                  >
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    ./abrir_app
+                  </a>
+                ) : null}
                 <a
-                  href={project.links.app}
+                  href={repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="cmd cmd-primary"
-                >
-                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-                  ./abrir_app
-                </a>
-                <a
-                  href={project.links.repo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cmd"
+                  className={app ? "cmd" : "cmd cmd-primary"}
                   aria-label={`Código do ${project.name} no GitHub`}
                 >
                   <GithubIcon className="h-3.5 w-3.5" />
